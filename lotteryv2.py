@@ -70,14 +70,15 @@ class Lotto():
 
         pb_result_text = ".\n"
 
-        str_drawn_num = stringify_ticket_num(ticket_num[0])
+        str_drawn_num = stringify_ticket_num(self.drawn_num[0])
         str_ticket_num = stringify_ticket_num(ticket_num[0])
-        print(pb_result)
-        earnings = rewards_dict[str(pb_result)][self.matches]
+
+        earnings = rewards_dict[str(self.pb_bool)][self.matches]
         profit = (self.money_spent * -1) + earnings
 
+        print(self.pb_bool)
         if self.pb_bool:
-            pb_reuslt_text = f"""
+            pb_result_text = f"""
                 You won the Powerball!
                 Drawing Powerball: {self.drawn_num[1]}
                 Your Powerball: {ticket_num[1]}
@@ -86,7 +87,7 @@ class Lotto():
         return f"""
             You hit a match!
             The lottery Number was : {str_drawn_num}
-            Your Winning Number was: {str_ticket_num} with {self.matches}!
+            Your Winning Number was: {str_ticket_num} with {self.matches} matches!
             You bought {self.money_spent/self.cost} tickets.\n
             .\n
             {pb_result_text}
@@ -96,7 +97,7 @@ class Lotto():
             Winnings: ${earnings}
             Profit  : ${profit}
 
-            You could buy roughly {profit/1.86} eggs with that money!
+            You could buy roughly {int(profit/1.86)} eggs with that money!
         """
 
 
@@ -107,7 +108,7 @@ def main():
             pb = int(input("Would you like to buy the powerball?\n 1 for true 2 for false")) + 1
             break
         except ValueError:
-            print("Please enter a valid option. Each answer must be numbers.")
+            print("Please enter a valid option. Each answer must be numbers.\n")
             continue
 
     lotto_roll = Lotto(match_thresh, pb)
@@ -119,7 +120,7 @@ def main():
             ticket_num = gen_ticket_num()
             lotto_result = lotto_roll.compare_nums(ticket_num)
 
-            print(f"Your ticket number is {ticket_num} with {lotto_roll.matches} match!")
+            print(f"Your ticket number is {stringify_ticket_num(ticket_num[0])} {ticket_num[1]} with {lotto_roll.matches} match!")
 
         #lotto_result[1] == powerball result
         print(lotto_roll.winnings(ticket_num, lotto_result[1]))
@@ -133,80 +134,3 @@ def main():
 
 
 main()
-
-# def gen_lottery_number(pb):
-#     nums = []
-#     total = 0
-#
-#     while total <= 5:
-#         nums.append(randbelow(69))
-#         total += 1
-#
-#     if pb == 3:
-#         nums.append(randbelow(29))
-#
-#     return nums
-#
-#
-# def winnings():
-#     rewards_dict = {
-#         "True": {
-#             1: 4,
-#             2: 7,
-#             3: 100,
-#             4: 50000,
-#             5: 124000000
-#         },
-#         "False": {
-#             1: 4,
-#             2: 4,
-#             3: 7,
-#             4: 100,
-#             5: 1000000
-#         }
-#     }
-#
-#     return True
-#
-#
-# def get_inputs():
-#     while True:
-#         try:
-#             match_thresh = int(input("Thank you for playing the lottery! How many numbers are you trying to match? 1-5\n"))
-#             pb = int(input("Would you like to buy the powerball?\n 1 for true 2 for false")) + 1
-#             break
-#         except ValueError:
-#             print("Please enter a valid option. Each answer must be numbers.")
-#             continue
-#
-#     return match_thresh, pb
-#
-#
-# def main():
-#     money_spent = 0
-#     ticket_num = 0
-#
-#     match_thresh, pb = get_inputs()
-#     rolled_numbers = gen_lottery_number(pb)
-#
-#     try:
-#         while matches < match_thresh:
-#             money_spent += pb
-#             pb_result = False
-#             matches = 0
-#             ticket_num = gen_lottery_number(pb)
-#
-#             for num in ticket_num:
-#                 try:
-#                     if ticket_num.index(num) != len(ticket_num) -1 and rolled_numbers.index(num) != len(rolled_numbers) -1:
-#                         matches += 1 if num in rolled_numbers else 0
-#                 except:
-#                     pass
-#
-#             if pb == 3 and rolled_numbers[-1] == ticket_num[-1]:
-#
-#
-#     except KeyboardInterrupt:
-#         print(f"""\nThe starting number was:{rolled_numbers}\n
-#         You bought {money_spent/pb} lotto tickets and spent ${money_spent}.
-#         """)
