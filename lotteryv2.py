@@ -18,8 +18,7 @@ class Lotto():
     def __init__(self, match_threshold, powerball):
         self.match_threshold = match_threshold
         self.matches = 0
-
-        self.pb_cost  = powerball
+        self.cost = powerball
         self.pb_bool = True if powerball == 3 else False
 
         self.drawn_num = gen_ticket_num()
@@ -37,11 +36,10 @@ class Lotto():
 
         results.append(True if self.matches >= self.match_threshold else False)
 
-        self.money_spent += 2
+        self.money_spent += self.cost
+
         #check powerball results
-        self.pb_bool
         if self.pb_bool:
-            self.money_spent += 1
             results.append(True if self.drawn_num[1] == ticket_num[1] else False)
 
 
@@ -70,7 +68,13 @@ def main():
 
         print(f"Your ticket number is {ticket_num} with {lotto_roll.matches} match!")
 
-    print(lotto_result)
+    print(f"""
+        Drawn Lotto Number:  {lotto_roll.drawn_num}
+        Winning Number:      {ticket_num}
+        # of tickets bought: {lotto_roll.money_spent / lotto_roll.cost}
+        Total $$$ spent:     {lotto_roll.money_spent}
+        """)
+
 
 
 
