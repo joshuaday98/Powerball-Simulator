@@ -23,7 +23,7 @@ class Lotto():
         self.pb_bool = True if powerball == 3 else False
 
         self.drawn_num = gen_ticket_num()
-        self.money_spent
+        self.money_spent = 0
 
 
     def compare_nums(self, ticket_num):
@@ -33,13 +33,17 @@ class Lotto():
 
         for num in ticket_num[0]:
             if num in self.drawn_num[0]:
-                matches += 1
+                self.matches += 1
 
-        results.append(True if self.match >= self.match_threshold else False)
+        results.append(True if self.matches >= self.match_threshold else False)
 
+        self.money_spent += 2
         #check powerball results
-        if pb_bool:
-            results.append(True if self.drawn_num[1] == ticket_num[1])
+        self.pb_bool
+        if self.pb_bool:
+            self.money_spent += 1
+            results.append(True if self.drawn_num[1] == ticket_num[1] else False)
+
 
         return results
 
@@ -56,8 +60,21 @@ def main():
             continue
 
     lotto_roll = Lotto(match_thresh, pb)
+    print(f"Your number is {lotto_roll.drawn_num}")
+
+    lotto_result = [False, False]
+
+    while False in lotto_result:
+        ticket_num = gen_ticket_num()
+        lotto_result = lotto_roll.compare_nums(ticket_num)
+
+        print(f"Your ticket number is {ticket_num} with {lotto_roll.matches} match!")
+
+    print(lotto_result)
 
 
+
+main()
 
 # def gen_lottery_number(pb):
 #     nums = []
